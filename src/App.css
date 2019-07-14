@@ -1,7 +1,61 @@
 .App {
   text-align: center;
+  border: 0.5px solid lightgray;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 70vw;
 }
+.box {
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 70vw;
+  background-color: lightgray;
+  height: 100px;
+}
+hr {
+  width: 70vw;
+}
+.issuedisplay {
+  border: 0.5px solid lightgray;
+  margin: 0 auto;
+  width: 70vw;
+}
+#issuesbox {
+  padding-top: 35px;
+  margin: 10px;
+}
+#open {
+  color: white;
+  background-color: rgb(37, 194, 37);
+  font-weight: bold;
+}
+nav {
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  height: 50px;
+  font-weight: bold;
+  padding: 10px;
+}
+img {
+  height: 40px;
+  width: 40px;
+  border: 1px solid black;
+}
+input {
+  background-color: black;
+  color: gray;
+  border: 1px solid gray;
+  margin-bottom: 10px;
+}
+#gotoissues {
+  background-color: rgb(238, 235, 235);
+  width: 150px;
+  height: 70px;
+  font-size: 20px;
+  border-radius: 10px;
 
+}
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
