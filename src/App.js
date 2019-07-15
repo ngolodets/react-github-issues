@@ -67,15 +67,10 @@ class App extends React.Component {
         <Route exact path='/' component={Home} />
 
         <Route exact path='/issues' 
-                render={() => <Issues   issues={this.state.issues} />} 
-        />
+                render={() => <Issues issues={this.state.issues} />} />
 
         <Route path='/issues/:id' 
-                render={(props) => <IssueShow {...props} 
-                                              issues={this.state.issues} 
-                                                              
-                /> } 
-        />
+                render={(props) => <IssueShow {...props} issues={this.state.issues} />} />
     </Router>
     );
   }

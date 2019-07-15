@@ -3,11 +3,8 @@ import {Route, Link} from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
 
-const Issue = ({match}) => <p>{match.params.id}</p>
-
 class Issues extends React.Component {
   render() {
-    //const {url} = this.props.match
     return (
       <>
         <ReactMarkdown source={this.props.markdownContent} />
@@ -35,7 +32,6 @@ class Issues extends React.Component {
               <p style={{display: 'inline'}} key={i}> {issue.user.login} opened this issue {moment(issue.created_at).fromNow()}</p>
             </div>
           )}
-        
         <Route path='/issues/:id' component={Issues} />
       </>
     )

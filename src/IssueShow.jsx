@@ -8,7 +8,6 @@ const IssueShow = props => {
   });
   return (
     <>
-      
       <div className='issuedisplay'>
         <h1>{issue.title}</h1>
         <p id='tag'># {issue.number}</p>
