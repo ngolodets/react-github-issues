@@ -20,16 +20,23 @@ class Issues extends React.Component {
           <h3 id='issuesbox'>⚠️ 100 Open Issues</h3>
         </div>
           {this.props.issues.map((issue, i) => 
-        <div className='issuedisplay'>
-            <div>
-            <h3 key={i}> {issue.title} </h3>
-            <p key={i}> Issue ID: {issue.number} </p>
-            <button type='button' id='open' onClick={(e) => this.props.showIssue(e, i)}>✳️OPEN</button>
-            <p style={{display: 'inline'}} key={i}> {issue.user.login} opened this issue {moment(issue.created_at).fromNow()}</p>
+            <div className='issuedisplay'>
+              <Link to={"/issues/" + issue.number} style={{textDecoration: 'none',
+                                      color: 'black'}} 
+                                      ><h3 key={i}> {issue.title} </h3> </Link>
+              <p key={i}> Issue ID: {issue.number} </p>
+              <div style={{float: 'right'}}>
+                <img id="comments" style={{height: '30px',
+                                            width: '30px'}}
+                              src="https://www.wpclipart.com/blanks/callouts/color_bubbles_light/speech_bubble_cloud_blue_left.png" />
+                <p style={{display: 'inline'}}>{issue.comments}</p>
+              </div>
+              <p class='showopen' >✳️{issue.state}</p>
+              <p style={{display: 'inline'}} key={i}> {issue.user.login} opened this issue {moment(issue.created_at).fromNow()}</p>
             </div>
-        </div>
           )}
-        <Route path='/issues/:id' component={Issue} />
+        
+        <Route path='/issues/:id' component={Issues} />
       </>
     )
   }

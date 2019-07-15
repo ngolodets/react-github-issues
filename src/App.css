@@ -49,13 +49,14 @@ hr {
   padding-top: 35px;
   margin: 10px;
 }
-#open, #showopen {
+#open, .showopen {
   color: white;
   background-color: rgb(37, 194, 37);
   font-weight: bold;
 }
-#showopen {
-  width: 80px;
+.showopen {
+  width: 90px;
+  padding: 3px;
 }
 nav {
   background-color: black;
@@ -69,6 +70,9 @@ img {
   height: 40px;
   width: 40px;
   border: 1px solid black;
+}
+#comments {
+  border: 1px solid white;
 }
 input {
   background-color: black;

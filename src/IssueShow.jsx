@@ -3,25 +3,28 @@ import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
 
 const IssueShow = props => {
-  // let issue = props.foundIssues.find((issue) => {
-  //   return issue.id === parseInt(props.match.params.id);
-  // });
+  let issue = props.issues.find((issue) => {
+    return issue.number === parseInt(props.match.params.id);
+  });
   return (
     <>
-    <ReactMarkdown source={props.markdownContent} />
       
       <div className='issuedisplay'>
-        <h1>{props.foundIssues.title}</h1>
-        <p id='tag'># {props.foundIssues.number}</p>
-        <p id='showopen'style={{display: 'inline'}}>✳️OPEN</p>
-        <p id='anothertag' style={{display: 'inline'}}> {props.user} opened this issue {moment(props.foundIssues.created_at).fromNow()}</p>
+        <h1>{issue.title}</h1>
+        <p id='tag'># {issue.number}</p>
+        <p class='showopen'style={{display: 'inline'}}>✳️{issue.state}</p>
+        <p id='anothertag' style={{display: 'inline'}}> {issue.user.login} opened this issue {moment(issue.created_at).fromNow()}</p>
       </div>
       <hr></hr>
       <div className='header'>
-      <p id='moretags'> {props.user} opened this issue {moment(props.foundIssues.created_at).fromNow()}</p>
+        <p id='moretags'> {issue.user.login} opened this issue {moment(issue.created_at).fromNow()}</p>
       </div>
       <div className='description'>
-        <p>{props.foundIssues.body}</p>
+        <img style={{borderRadius: '50%',
+                      height: '50px',
+                      width: "50px"
+                      }} src={issue.user.avatar_url} />
+        <ReactMarkdown source={issue.body} />
       </div>
     </>
   )

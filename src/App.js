@@ -15,111 +15,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      issues: [],
-      titles: [],
-      numbers: [],
-      users: [],
-      foundIssues: [],
-      userInfo: [],
-      userPic: [],
-      activePage: 1
+      issues: []
     }
-    this.getIssues = this.getIssues.bind(this);
-    this.showIssue = this.showIssue.bind(this);
   }
 
   componentDidMount() {
-    Promise.all([
-      axios.get("https://api.github.com/repos/facebook/react/issues?page=1&per_page=100"),
-      axios.get("https://api.github.com/repos/facebook/react/issues/16135")
-    ]).then(([result1, result2]) => {
-      let issues = result1.data;
-      let titles = result1.data[0].title;
-      let numbers = result1.data[0].number;
-      let users = result1.data[0].user.login;
-      let foundIssues = result2.data;
-      let userInfo = result2.data.user.login;
-      let userPic = result2.data.user.avatar_url;
-      //let id = result1.data.number;
-      this.setState({
-        issues,
-        titles,
-        numbers,
-        users,
-        foundIssues,
-        userInfo,
-        userPic
-        //id
-      })
-    })
-    //axios.get("https://api.github.com/repos/facebook/react/issues?page=1&per_page=100")
-    // .then((result) => {
-    //   return axios.get("https://api.github.com/repos/facebook/react/issues/16132")
-    // })
-      // .then((result) => {
-        //console.log(result.data);
-      //   let issues = result.data;
-      //   let titles = result.data[0].title;
-      //   let numbers = result.data[0].number;
-      //   let users = result.data[0].user.login;
-      //   let foundIssues = result.data;
-      //   this.setState({
-      //     issues,
-      //     titles,
-      //     numbers,
-      //     users,
-      //     foundIssues
-      // })
-        //this.showIssue
-    // })
-  }
-
-  getIssues(e) {
-    e.preventDefault();
-    //var foundIssues = Array.from(this.state.issues);
-    window.location.assign('/issues');
     axios.get("https://api.github.com/repos/facebook/react/issues?page=1&per_page=100")
-    .then((result) => {
-      //console.log(result);
-      let issues = result.data;
-      let titles = result.data[1].title;
-      let numbers = result.data[1].number;
-      let users = result.data[1].user.login;
-      let foundIssues = result.data;
-      this.setState({
-        issues,
-        titles,
-        numbers,
-        users,
-        foundIssues
-      })
-    })  
-  }
-
-  showIssue(e, i) {
-    e.preventDefault();
-    //const id = this.props.match.params.id
-    //var id = this.state[i].issues.number;
-    //let foundIssues = Array.from(this.state.foundIssues);
-    window.location.assign('/issues/' + i); //+ id);//this.state[i].foundIssues.number);
-    axios.get("https://api.github.com/repos/facebook/react/issues/" + this.state.foundIssues.number)
       .then((result) => {
-        let foundIssues = result.data;
-        let userInfo = result.data.user.login;
-        //let userPic = result.data.user.avatar_url;
-        //var id = result.data.number;
         this.setState({
-          foundIssues,
-          userInfo
-          // userPic
-          // id
+          issues: result.data
       })
     })
-  }
-
-  handlePageChange(pageNumber) {
-    console.log(`active page is ${pageNumber}`);
-    this.setState({activePage: pageNumber});
   }
 
   render() {
@@ -158,28 +64,16 @@ class App extends React.Component {
           >Explore</Link>
         </nav>
 
-        <Route exact path='/' render={() => <Home getIssues={this.getIssues} /> } />
+        <Route exact path='/' component={Home} />
 
         <Route exact path='/issues' 
-                render={() => <Issues   issues={this.state.issues}
-                                        titles={this.state.titles}
-                                        numbers={this.state.numbers}
-                                        users={this.state.users}
-                                        showIssue={this.showIssue}
-
-                                        activePage={this.state.activePage}
-                                        itemsCountPerPage={20}
-                                        totalItemsCount={100}
-                                        pageRangeDisplayed={5}
-                                        onChange={this.handlePageChange}
-                />} 
+                render={() => <Issues   issues={this.state.issues} />} 
         />
 
         <Route path='/issues/:id' 
                 render={(props) => <IssueShow {...props} 
-                                              foundIssues={this.state.foundIssues} 
-                                              user={this.state.userInfo}
-                                              //pic={this.state.userPic}                  
+                                              issues={this.state.issues} 
+                                                              
                 /> } 
         />
     </Router>
