@@ -20,6 +20,8 @@ class App extends React.Component {
       numbers: [],
       users: [],
       foundIssues: [],
+      userInfo: [],
+      userPic: [],
       activePage: 1
     }
     this.getIssues = this.getIssues.bind(this);
@@ -27,22 +29,49 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("https://api.github.com/repos/facebook/react/issues?page=1&per_page=100")
-    .then((result) => {
-        //console.log(result.data);
-        let issues = result.data;
-        let titles = result.data[0].title;
-        let numbers = result.data[0].number;
-        let users = result.data[0].user.login;
-        //let foundIssues = result.data;
-        this.setState({
-          issues,
-          titles,
-          numbers,
-          users,
-          //foundIssues
+    Promise.all([
+      axios.get("https://api.github.com/repos/facebook/react/issues?page=1&per_page=100"),
+      axios.get("https://api.github.com/repos/facebook/react/issues/16135")
+    ]).then(([result1, result2]) => {
+      let issues = result1.data;
+      let titles = result1.data[0].title;
+      let numbers = result1.data[0].number;
+      let users = result1.data[0].user.login;
+      let foundIssues = result2.data;
+      let userInfo = result2.data.user.login;
+      let userPic = result2.data.user.avatar_url;
+      //let id = result1.data.number;
+      this.setState({
+        issues,
+        titles,
+        numbers,
+        users,
+        foundIssues,
+        userInfo,
+        userPic
+        //id
       })
     })
+    //axios.get("https://api.github.com/repos/facebook/react/issues?page=1&per_page=100")
+    // .then((result) => {
+    //   return axios.get("https://api.github.com/repos/facebook/react/issues/16132")
+    // })
+      // .then((result) => {
+        //console.log(result.data);
+      //   let issues = result.data;
+      //   let titles = result.data[0].title;
+      //   let numbers = result.data[0].number;
+      //   let users = result.data[0].user.login;
+      //   let foundIssues = result.data;
+      //   this.setState({
+      //     issues,
+      //     titles,
+      //     numbers,
+      //     users,
+      //     foundIssues
+      // })
+        //this.showIssue
+    // })
   }
 
   getIssues(e) {
@@ -56,30 +85,34 @@ class App extends React.Component {
       let titles = result.data[1].title;
       let numbers = result.data[1].number;
       let users = result.data[1].user.login;
+      let foundIssues = result.data;
       this.setState({
         issues,
         titles,
         numbers,
-        users
+        users,
+        foundIssues
       })
     })  
   }
 
   showIssue(e, i) {
     e.preventDefault();
+    //const id = this.props.match.params.id
     //var id = this.state[i].issues.number;
-    // for (var i = 0; i < 100; i++) {
-    //   var id = this.state[i].issues.number;
-    // }
-    //const issues = issues;
-    window.location.assign('/issues/' + this.state[i].issues.number);
-    //let foundIssues = Array.from(this.state.issues);
-    axios.get("https://api.github.com/repos/facebook/react/issues/16132" + this.state.issues.number)
+    //let foundIssues = Array.from(this.state.foundIssues);
+    window.location.assign('/issues/' + i); //+ id);//this.state[i].foundIssues.number);
+    axios.get("https://api.github.com/repos/facebook/react/issues/" + this.state.foundIssues.number)
       .then((result) => {
         let foundIssues = result.data;
-        console.log(foundIssues);
+        let userInfo = result.data.user.login;
+        //let userPic = result.data.user.avatar_url;
+        //var id = result.data.number;
         this.setState({
-          foundIssues
+          foundIssues,
+          userInfo
+          // userPic
+          // id
       })
     })
   }
@@ -144,7 +177,9 @@ class App extends React.Component {
 
         <Route path='/issues/:id' 
                 render={(props) => <IssueShow {...props} 
-                                              foundIssues={this.state.foundIssues}                   
+                                              foundIssues={this.state.foundIssues} 
+                                              user={this.state.userInfo}
+                                              //pic={this.state.userPic}                  
                 /> } 
         />
     </Router>
